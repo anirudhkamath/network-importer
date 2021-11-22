@@ -104,6 +104,7 @@ class NetworkImporter:
         sot_path = config.SETTINGS.adapters.sot_class.split(".")
         sot_settings = config.SETTINGS.adapters.sot_settings
         sot_adapter = getattr(importlib.import_module(".".join(sot_path[0:-1])), sot_path[-1])
+        sys.exit(1)
 
         try:
             self.sot = sot_adapter(nornir=self.nornir, settings=sot_settings)
@@ -132,7 +133,7 @@ class NetworkImporter:
                 print(f"  {'/'.join(error['loc'])} | {error['msg']} ({error['type']})")
             sys.exit(1)
         except AdapterLoadFatalError as exc:
-            LOGGER.error("Unable to load the SOT Adapter : %s", exc)
+            LOGGER.error("Unable to load the Network Adapter : %s", exc)
             sys.exit(1)
 
         return True
